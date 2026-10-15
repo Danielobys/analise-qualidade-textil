@@ -1,0 +1,7 @@
+# O runtime copiado é infraestrutura de apoio ao dashboard.
+# Mantém a composição criada para este estudo visível nas estatísticas.
+dashboard/app/** linguist-vendored
+dashboard/app/src/content/** -linguist-vendored
+dashboard/app/src/data.json linguist-generated
+dashboard/app/dist/** linguist-generated
+docs/** linguist-generated
