@@ -4,6 +4,8 @@ Projeto de portfólio que conecta experiência em inspeção de malhas com **Pyt
 
 **Todos os dados são sintéticos.** Os padrões foram inseridos no gerador para praticar análise; não representam fornecedores reais nem comprovam ganhos operacionais.
 
+[**Abrir dashboard público**](https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard) | [Código e notebook](https://github.com/Danielobys/analise-qualidade-textil)
+
 ![Dashboard](assets/dashboard-preview.jpg)
 
 ## Resultados da base incluída
@@ -75,7 +77,7 @@ cd sql
 psql -d qualidade_textil -f consultas_analiticas.sql
 ```
 
-O script recria tabelas no esquema qualidade_textil, interrompe em erro e protege a carga com transação. **Execução em PostgreSQL ainda não validada neste ambiente.**
+O script recria tabelas no esquema qualidade_textil, interrompe em erro e protege a carga com transação. **Validado em PostgreSQL 18:** carga de 4.980 lotes, 1.309 reprovados e execução das três consultas; segunda execução concluída com sucesso em banco temporário isolado.
 
 ## Limitações
 

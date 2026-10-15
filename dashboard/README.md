@@ -2,6 +2,8 @@
 
 Aplicação web local com snapshot de 4.980 inspeções sintéticas de 2024. Não é um arquivo Power BI.
 
+[Abrir dashboard público](https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard)
+
 ## Executar
 
 Na raiz do projeto:

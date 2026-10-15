@@ -1,5 +1,13 @@
 # Publicar e atualizar o portfólio
 
+## Publicação realizada
+
+- Repositório: https://github.com/Danielobys/analise-qualidade-textil
+- Dashboard: https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard
+- Configuração: main, pasta /docs, HTTPS.
+
+As etapas abaixo documentam como repetir e atualizar a publicação.
+
 ## O que cada link faz
 
 O repositório no GitHub mostra código, notebook, dados e documentação. O GitHub Pages abre o dashboard no navegador, sem instalar nada. O endereço 127.0.0.1 funciona somente no computador que está executando o servidor.
