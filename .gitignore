@@ -1,0 +1,19 @@
+# Ambiente
+venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Dependências e arquivos locais
+.venv/
+node_modules/
+.data-app-offline/
+.env
+.env.*
+*.log
