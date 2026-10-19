@@ -31,7 +31,7 @@ python -m http.server 4173 --bind 127.0.0.1 --directory dashboard/app/dist
 
 Abra http://127.0.0.1:4173/. Há filtros de período, fornecedor, malha e cor; evolução mensal; Pareto; mapa de calor; gramatura fora da faixa e tabelas por lote. Não precisa de PostgreSQL para abrir.
 
-O HTML precisa ser servido junto do JSON, por HTTP. [Guia de publicação e atualização](PUBLICAR.md).
+O HTML precisa ser servido junto do JSON, por HTTP.
 
 ## Organização
 
