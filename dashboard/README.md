@@ -30,4 +30,4 @@ Interface em app/src/content/dashboard/DashboardContent.jsx e textile.css. Snaps
 
 A pasta app/dist contém a versão compilada e os dados necessários para executar sem Node ou bibliotecas externas. Para recompilar a interface no Codex, usar o build da skill Data, conforme app/AGENTS.md. O repositório inclui os fontes; a reprodução do build usa o runtime Data do Codex. Para apenas executar ou hospedar, Python ou qualquer servidor estático basta.
 
-Consulte ../PUBLICAR.md para publicação no GitHub Pages e atualização da pasta docs. O dashboard trabalha com cópia estática da base: mudar o CSV exige regenerar app/src/data.json e recompilar. Sem atualização automática ou gravação na fonte.
+O dashboard trabalha com cópia estática da base: mudar o CSV exige regenerar app/src/data.json e recompilar. Sem atualização automática ou gravação na fonte.
