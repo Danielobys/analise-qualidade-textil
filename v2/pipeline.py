@@ -234,7 +234,7 @@ def main():
     (SAIDA / "dashboard.html").write_text(modelo.replace("__DADOS__", dados), encoding="utf-8")
     compactado = base64.b64encode(gzip.compress(dados.encode("utf-8"), mtime=0)).decode("ascii")
     web = modelo.replace('id="dados" type="application/json"', 'id="dados" type="application/octet-stream"').replace("__DADOS__", compactado)
-    inicializacao = """(async function iniciar() {
+    inicializacao = """;(async function iniciar() {
 const comprimido = Uint8Array.from(atob(document.querySelector('#dados').textContent), c => c.charCodeAt(0))
 const fluxo = new Blob([comprimido]).stream().pipeThrough(new DecompressionStream('gzip'))
 const {lotes, rolos, resumo} = await new Response(fluxo).json()"""
