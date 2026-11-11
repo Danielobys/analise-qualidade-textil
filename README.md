@@ -6,6 +6,8 @@ Projeto de portfólio que conecta experiência em inspeção de malhas com **Pyt
 
 [**Abrir dashboard público**](https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard) | [Código e notebook](https://github.com/Danielobys/analise-qualidade-textil)
 
+[Abrir a versão 2 do painel](https://danielobys.github.io/analise-qualidade-textil/v2/) | [Metodologia e código da v2](v2/)
+
 ![Dashboard](assets/dashboard-preview.jpg)
 
 ## Resultados da base incluída

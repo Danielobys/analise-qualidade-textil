@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análise de Qualidade Têxtil | V2</title>
+<style>
+:root{--bg:#f0f3f5;--paper:#fff;--text:#172a35;--muted:#4e6371;--line:#d8e0e5;--navy:#132e3c;--blue:#0e6580;--green:#286b53;--red:#9a3b2f;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 "Inter","Segoe UI",sans-serif}
+.hero{background:var(--navy);color:white;padding:36px 0 27px;border-bottom:5px solid #7fbead}.wrap{width:min(1160px,calc(100% - 38px));margin:auto}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(28px,5vw,48px);line-height:1.08;margin-bottom:10px;letter-spacing:-.04em}h2{font-size:23px;margin-bottom:5px;letter-spacing:-.02em}h3{font-size:16px;margin:0 0 9px}.hero p{color:#d7e8eb;margin:0}.muted,small{color:var(--muted)}p:last-child{margin-bottom:0}
+nav{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0}.nav{background:transparent;border:1px solid #8ea4ad;color:var(--text)}.nav[aria-selected=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+button,select,input{font:inherit}button,select,input{border:1px solid #8197a3;border-radius:8px;padding:7px 10px;background:#fff;color:var(--text)}button{cursor:pointer;font-weight:650}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #2384a0;outline-offset:3px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:14px 0}.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:17px 19px}.panel{margin:14px 0}.card strong{display:block;font-size:30px;line-height:1.2;color:var(--navy);font-variant-numeric:tabular-nums}.card span{display:block;font-weight:650}.filters{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:13px 0 0}.filters label{display:grid;gap:3px;color:var(--muted)}.filters input{max-width:205px}
+.split{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin:14px 0}.split .panel{margin:0}.scroll{overflow:auto}.scroll:focus-visible{outline:2px solid #2384a0}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;white-space:nowrap}caption{text-align:left;font-weight:650;margin-bottom:6px}td,th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}thead th{background:#edf3f5;font-size:13px;vertical-align:bottom}tbody th{font-weight:600}td.num{text-align:right}tbody tr:last-child>*{border-bottom:0}summary{cursor:pointer;font-weight:650;margin:9px 0}
+.bars{display:grid;gap:8px}.bar-row{display:grid;grid-template-columns:46px minmax(38px,1fr) auto;align-items:center;gap:9px;font-size:13px}.bar-bg{height:10px;background:#e2ecf0;border-radius:5px}.bar-fill{height:100%;background:var(--blue);border-radius:5px}.meters .bar-row{grid-template-columns:100px minmax(20px,1fr) auto}#ocorrencias .bar-row{grid-template-columns:minmax(94px,150px) minmax(20px,1fr) auto}.meters .bar-fill{background:var(--green)}.meters .blocked .bar-fill{background:var(--red)}.meters .pending .bar-fill{background:#8a681e}
+footer{padding:15px 0 27px;color:var(--muted)}footer a{color:#075776}.tag{margin:0;font-size:14px}.amount{white-space:nowrap}.empty{padding:12px 0;color:var(--muted)}
+[hidden]{display:none!important}@media(max-width:730px){.split{grid-template-columns:1fr}.wrap{width:calc(100% - 26px)}.panel,.card{padding:13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card strong{font-size:24px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap"><h1>Análise de Qualidade Têxtil · V2</h1><p>Portfólio de Daniel Correia Lemos Júnior · Dados sintéticos</p></div></header>
+<main class="wrap">
+<nav aria-label="Visões do painel" role="tablist">
+<button class="nav" id="tab-lotes" role="tab" aria-controls="lotes" aria-selected="true">Lotes de 2024</button>
+<button class="nav" id="tab-rolos" role="tab" aria-controls="rolos" aria-selected="false" tabindex="-1">Revisão de rolos</button>
+<button class="nav" id="tab-auditoria" role="tab" aria-controls="auditoria" aria-selected="false" tabindex="-1">Auditoria</button>
+</nav>
+<section id="lotes" role="tabpanel" aria-labelledby="tab-lotes">
+<h2>Como a composição de malhas afeta a comparação?</h2>
+<p class="muted">Uma linha por lote no recorte de 2024. O status vem da base original e preserva a decisão registrada.</p>
+<div id="comparacao" class="panel"></div>
+<form class="filters" id="filtros-lotes">
+<label>Fornecedor<select id="fornecedor-lote"></select></label><label>Malha<select id="malha"></select></label>
+<label>Mês<select id="mes"></select></label><label>Buscar lote<input id="buscar-lote" type="search" placeholder="LT2401"></label>
+<button type="reset">Limpar filtros</button>
+</form>
+<div class="grid" id="kpis-lotes" aria-live="polite"></div>
+<div class="split"><section class="panel"><h3>Reprovação mensal no recorte</h3><div id="meses" class="bars"></div></section>
+<section class="panel"><h3>Gramatura por tipo de malha</h3><div id="gramas"></div><p class="tag muted">Em g/m², usando apenas medições preenchidas.</p></section></div>
+<section class="panel"><h3>Ocorrências visuais por tipo</h3><div id="ocorrencias" class="bars meters"></div><p class="tag muted">Contagem de lotes com cada defeito registrado. A manifestação observada orienta a investigação.</p></section>
+<section class="panel"><h3>Consulta por lote</h3><div id="lista-lotes"></div></section>
+</section>
+<section id="rolos" role="tabpanel" aria-labelledby="tab-rolos" hidden>
+<h2>O que está revisado e disponível para corte?</h2>
+<p class="muted">Cenário independente de 500 rolos sintéticos. Posição ao fim de 31/10/2026. Taxa de reprovação usa apenas rolos revisados.</p>
+<form class="filters" id="filtros-rolos">
+<label>Fornecedor<select id="fornecedor-rolo"></select></label><label>Artigo<select id="artigo"></select></label>
+<label>Situação<select id="situacao"></select></label><label>Buscar rolo ou lote<input id="buscar-rolo" type="search" placeholder="SIM-R0001"></label>
+<button type="reset">Limpar filtros</button>
+</form>
+<div class="grid" id="kpis-rolos" aria-live="polite"></div>
+<div class="split"><section class="panel"><h3>Saldo físico por situação</h3><div id="estoque" class="bars meters"></div></section>
+<section class="panel"><h3>Fila de revisão</h3><div id="fila"></div><p class="tag muted">Dias desde a entrada dos rolos ainda sem revisão na data de corte.</p></section></div>
+<section class="panel"><h3>Rastrear revisão, liberação e corte</h3><div id="lista-rolos"></div></section>
+</section>
+<section id="auditoria" role="tabpanel" aria-labelledby="tab-auditoria" hidden>
+<h2>O que aconteceu com os dados de origem?</h2>
+<div class="grid" id="kpis-auditoria"></div>
+<div class="panel" id="auditoria-texto"></div>
+</section>
+</main>
+<footer class="wrap"><a href="https://github.com/Danielobys/analise-qualidade-textil">Projeto original</a> · Todos os dados deste painel são simulados.</footer>
+<script id="dados" type="application/json">__DADOS__</script>
+<script>
+'use strict'
+const {lotes, rolos, resumo} = JSON.parse(document.querySelector('#dados').textContent)
+const $ = id => document.getElementById(id)
+const fmt = (n,d=0) => n == null ? '—' : n.toLocaleString('pt-BR',{maximumFractionDigits:d})
+const pct = (n,d) => d ? fmt(n/d*100,1)+'%' : '—'
+const esc = value => String(value ?? '—').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+const sum = (rows,key) => rows.reduce((a,x)=>a+x[key],0)
+const group = (rows,key) => rows.reduce((acc,x)=>{const k=key(x);(acc[k]??=[]).push(x);return acc}, Object.create(null))
+const card = (titulo,valor,nota) => `<article class="card"><span>${titulo}</span><strong>${valor}</strong><small>${nota}</small></article>`
+function tabela(headers,rows){
+  if(!rows.length)return '<p class="empty">Nenhum registro neste recorte.</p>'
+  return `<div class="scroll" tabindex="0" aria-label="Tabela com rolagem"><table><thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr><th scope="row">${esc(row[0])}</th>${row.slice(1).map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+}
+function barra(label,parte,total,descricao,classe=''){
+  const largura = total ? Math.min(100,Math.max(0,parte/total*100)) : 0
+  return `<div class="bar-row ${classe}"><span>${esc(label)}</span><div class="bar-bg" aria-hidden="true"><div class="bar-fill" style="width:${largura}%"></div></div><span class="amount">${esc(descricao)}</span></div>`
+}
+function opcoes(id,valores,todos='Todos'){
+  $(id).replaceChildren(new Option(todos,''))
+  for(const valor of [...new Set(valores)].sort())$(id).add(new Option(valor,valor))
+}
+const reprovados = rows => rows.filter(x=>x.status==='Reprovado').length
+function situacao(r){
+  if(r.resultado==='Reprovado')return 'Reprovado'
+  if(!r.revisao)return 'Aguardando revisão'
+  if(!r.liberacao)return 'Aguardando liberação'
+  return r.metros_saldo ? 'Liberado com saldo' : 'Consumido'
+}
+const fornecedores = lotes.map(x=>x.fornecedor)
+opcoes('fornecedor-lote',fornecedores); opcoes('malha',lotes.map(x=>x.malha))
+opcoes('mes',lotes.map(x=>x.data.slice(0,7)))
+opcoes('fornecedor-rolo',rolos.map(x=>x.fornecedor))
+opcoes('artigo',rolos.map(x=>x.artigo))
+opcoes('situacao',rolos.map(situacao))
+const global = resumo.lotes.comparacao
+$('comparacao').innerHTML = '<h3>Fornecedores com a mesma composição de referência</h3>'+
+  '<p class="muted">Base completa de 2024. A taxa padronizada aplica a distribuição total dos tipos de malha a cada fornecedor. Os filtros abaixo afetam a exploração, enquanto esta comparação usa a mesma referência.</p>'+
+  tabela(['Fornecedor','Reprovados / lotes','Taxa observada','Taxa padronizada'],
+    global.map(x=>[x.fornecedor,fmt(x.rej)+' / '+fmt(x.n),pct(x.rej,x.n),x.ajustada==null?'—':pct(x.ajustada,1)]))+
+  '<details><summary>Ver taxas por malha e pesos usados</summary>'+
+  tabela(['Fornecedor','Malha','Reprovados / lotes','Taxa no estrato','Peso de referência'],
+    global.flatMap(x=>x.estratos.map(e=>[x.fornecedor,e.malha,fmt(e.rej)+' / '+fmt(e.n),pct(e.rej,e.n),pct(e.peso,1)])))+'</details>'
+const bate=(valor,id)=>!$(id).value||$(id).value===valor
+const busca=(id,valor)=>valor.toUpperCase().includes($(id).value.trim().toUpperCase())
+function mediana(sorted){
+  const i=Math.floor(sorted.length/2)
+  return sorted.length%2?sorted[i]:(sorted[i-1]+sorted[i])/2
+}
+function atualizarLotes(){
+  const rows=lotes.filter(x=>bate(x.fornecedor,'fornecedor-lote')&&bate(x.malha,'malha')&&bate(x.data.slice(0,7),'mes')&&busca('buscar-lote',x.lote))
+  const rej=reprovados(rows), ausentes=rows.filter(x=>x.gramatura==null||x.torcao==null).length
+  $('kpis-lotes').innerHTML=card('Lotes no recorte',fmt(rows.length),'Uma linha por lote')+
+    card('Lotes reprovados',pct(rej,rows.length),fmt(rej)+' de '+fmt(rows.length)+' lotes')+
+    card('Medição ausente',fmt(ausentes),'Gramatura ou torção sem registro')
+  $('meses').innerHTML=Object.entries(group(rows,x=>x.data.slice(5,7))).sort((a,b)=>a[0].localeCompare(b[0])).map(([mes,rs])=>{
+    const n=reprovados(rs)
+    return barra(mes,n,rs.length,pct(n,rs.length)+' · '+fmt(n)+'/'+fmt(rs.length))
+  }).join('')||'<p class="empty">Nenhum mês com registros.</p>'
+  const gramas=Object.entries(group(rows,x=>x.malha)).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([malha,rs])=>{
+    const v=rs.map(r=>r.gramatura).filter(g=>g!=null).sort((a,b)=>a-b)
+    const media=v.reduce((a,b)=>a+b,0)/v.length
+    const dp=v.length>1?Math.sqrt(v.reduce((a,b)=>a+(b-media)**2,0)/(v.length-1)):null
+    return [malha,fmt(v.length),fmt(v.length?media:null,1),fmt(v.length?mediana(v):null,1),fmt(dp,1)]
+  })
+  $('gramas').innerHTML=tabela(['Malha','Medidos','Média','Mediana','DP amostral'],gramas)
+  const ocorrencias=Object.entries(group(rows.filter(r=>r.defeito!=='Nenhum'),r=>r.defeito)).sort((a,b)=>b[1].length-a[1].length)
+  const totalOcorrencias=ocorrencias.reduce((total,[,rs])=>total+rs.length,0)
+  $('ocorrencias').innerHTML=ocorrencias.map(([tipo,rs])=>
+    barra(tipo,rs.length,totalOcorrencias,fmt(rs.length)+' · '+pct(rs.length,totalOcorrencias))).join('')||
+    '<p class="empty">Nenhum defeito visual registrado neste recorte.</p>'
+  $('lista-lotes').innerHTML=`<p class="muted">Exibindo ${fmt(Math.min(rows.length,20))} de ${fmt(rows.length)} lotes. Use a busca para localizar um lote.</p>`+
+    tabela(['Lote','Data','Fornecedor','Malha','Cor','Gramatura','Torção (%)','Defeito registrado','Status'],
+      rows.slice(0,20).map(x=>[x.lote,x.data,x.fornecedor,x.malha,x.cor,fmt(x.gramatura,1),fmt(x.torcao,2),x.defeito,x.status]))
+}
+function atualizarRolos(){
+  const rows=rolos.filter(r=>bate(r.fornecedor,'fornecedor-rolo')&&bate(r.artigo,'artigo')&&bate(situacao(r),'situacao')&&busca('buscar-rolo',r.rolo+' '+r.lote))
+  const rev=rows.filter(r=>r.revisao).length, rej=rows.filter(r=>r.resultado==='Reprovado').length
+  const saldo=sum(rows,'metros_saldo'), disponiveis=sum(rows,'metros_liberados')
+  $('kpis-rolos').innerHTML=card('Recebidos',fmt(rows.length),'Rolos no recorte')+
+    card('Cobertura da revisão',pct(rev,rows.length),fmt(rev)+' revisados de '+fmt(rows.length)+' recebidos')+
+    card('Reprovação na revisão',pct(rej,rev),fmt(rej)+' reprovados de '+fmt(rev)+' revisados')+
+    card('Saldo disponível',fmt(disponiveis)+' m',fmt(saldo)+' m em estoque físico')
+  $('estoque').innerHTML=barra('Liberado',disponiveis,saldo,fmt(disponiveis)+' m')+
+    barra('Bloqueado',sum(rows,'metros_bloqueados'),saldo,fmt(sum(rows,'metros_bloqueados'))+' m','blocked')+
+    barra('Aguardando',sum(rows,'metros_aguardando'),saldo,fmt(sum(rows,'metros_aguardando'))+' m','pending')+
+    `<p class="muted tag">${fmt(sum(rows,'metros_recebidos'))} m recebidos − ${fmt(sum(rows,'metros_consumidos'))} m consumidos = ${fmt(saldo)} m em estoque.</p>`
+  const espera=rows.filter(r=>!r.revisao).map(r=>(Date.parse(resumo.data_corte)-Date.parse(r.entrada))/86400000).sort((a,b)=>a-b)
+  $('fila').innerHTML=tabela(['Rolos na fila','Mediana','Percentil 90'],[[fmt(espera.length),espera.length?fmt(mediana(espera),1)+' dias':'—',espera.length?fmt(espera[Math.ceil(espera.length*.9)-1])+' dias':'—']])
+  $('lista-rolos').innerHTML=`<p class="muted">Exibindo ${fmt(Math.min(rows.length,20))} de ${fmt(rows.length)} rolos. Use a busca para localizar um rolo ou lote.</p>`+
+    tabela(['Rolo','Lote','Fornecedor','Artigo / ficha','Entrada','Revisão','Resultado','g/m²','Largura (cm)','Desvios','Liberação','Corte','OF','Saldo (m)'],
+      rows.slice(0,20).map(r=>[r.rolo,r.lote,r.fornecedor,r.artigo+' / '+r.revisao_ficha,r.entrada,r.revisao,r.resultado,fmt(r.gramatura,1),r.largura_cm,r.desvios||null,r.liberacao,r.corte,r.ordem,fmt(r.metros_saldo)]))
+}
+const audit=resumo.auditoria
+$('kpis-auditoria').innerHTML=card('Linhas recebidas',fmt(audit.recebidas),'CSV original do portfólio')+
+  card('Lotes válidos',fmt(resumo.lotes.n),'Chave única após a auditoria')+
+  card('Cópias reconciliadas',fmt(audit.eventos.duplicata_equivalente+audit.eventos.duplicata_com_ausencia),'18 equivalentes · 2 com ausência')+
+  card('Linhas em quarentena',fmt(audit.quarentena),'Conflito de chave ou quebra de contrato')
+$('auditoria-texto').innerHTML='<h3>Trilha das transformações</h3>'+
+  tabela(['Ação','Eventos'],[
+  ['Normalização do fornecedor',fmt(audit.eventos.padronizar_fornecedor)],
+  ['Correção decimal prevista no gerador',fmt(audit.eventos.corrigir_decimal_da_simulacao)],
+  ['Medição recuperada de cópia compatível',fmt(audit.eventos.recuperar_valor_de_duplicata)],
+  ['Lotes que ainda têm medição ausente',fmt(resumo.lotes.ausentes)]])+
+  `<p class="muted">O log contém a linha do CSV, a ação e, quando aplicável, o valor antes e depois. Commit original <code>${esc(audit.commit.slice(0,12))}</code>.</p>`
+const tabs=[...document.querySelectorAll('[role=tab]')]
+function ativar(tab){
+  for(const item of tabs){
+    item.setAttribute('aria-selected',item===tab?'true':'false')
+    item.tabIndex=item===tab?0:-1
+    $(item.getAttribute('aria-controls')).hidden=item!==tab
+  }
+}
+tabs.forEach((tab,i)=>{
+  tab.addEventListener('click',()=>ativar(tab))
+  tab.addEventListener('keydown',event=>{
+    const destino={ArrowLeft:(i+tabs.length-1)%tabs.length,ArrowRight:(i+1)%tabs.length,Home:0,End:tabs.length-1}[event.key]
+    if(destino!==undefined){event.preventDefault();ativar(tabs[destino]);tabs[destino].focus()}
+  })
+})
+for(const [id,fn] of [['filtros-lotes',atualizarLotes],['filtros-rolos',atualizarRolos]]){
+  $(id).addEventListener('input',fn);$(id).addEventListener('reset',()=>setTimeout(fn,0));$(id).addEventListener('submit',e=>e.preventDefault())
+  fn()
+}
+</script>
+</body>
+</html>
