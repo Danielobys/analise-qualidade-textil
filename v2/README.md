@@ -38,14 +38,14 @@ A padronização direta calcula a taxa de cada fornecedor dentro de cada tipo de
 - Dos 50.035 m recebidos, 8.753 m foram consumidos. Os 41.282 m em estoque se dividem em 7.757 m liberados, 21.812 m bloqueados e 11.713 m aguardando revisão ou liberação.
 - A fila identifica onde verificar prioridade. Material com aprovação registrada só fica disponível após liberação. Corte exige liberação prévia e uma ordem registrada.
 
-## Como as ideias do livro entraram no projeto
+## Métodos aplicados
 
-| Seção de *A Arte de Pensar com Dados*, prova editorial v3 | Aplicação |
+| Método | Aplicação |
 |---|---|
-| Cap. 1, pp. 9–15 | Definição da unidade e do denominador. Comparação por estratos e padronização. A inversão descrita no livro não ocorreu neste conjunto |
-| Amostra técnica, pp. 16–20 | Média, mediana e desvio-padrão amostral da gramatura por malha. Mediana e p90 da fila em dias |
-| Amostra prática, pp. 21–24 | CSV de origem preservado, chave e domínios validados, log, quarentena, reconciliação e resultados reproduzíveis |
-| Capítulo especial, pp. 25–31 | Ocorrência visual e medições registradas separadamente. Revisão, decisão, autorização e corte têm campos distintos. As metragens reconciliam |
+| Comparação de fornecedores | Definição da unidade e do denominador, comparação por tipo de malha e padronização da composição. A ordem das taxas foi a mesma após o ajuste |
+| Estatística descritiva | Média, mediana e desvio-padrão amostral da gramatura por malha. Mediana e p90 da fila de revisão em dias |
+| Qualidade dos dados | Preservação do CSV de origem, validação de chaves e domínios, log, quarentena e reconciliação |
+| Rastreabilidade de rolos | Registro separado de ocorrências visuais e medições, com campos distintos para revisão, decisão, liberação e corte. Reconciliação das metragens |
 
 ## Contrato, métricas e limites
 
