@@ -4,13 +4,15 @@ Projeto de portfólio que conecta experiência em inspeção de malhas com **Pyt
 
 **Todos os dados são sintéticos.** Os padrões foram inseridos no gerador para praticar análise; não representam fornecedores reais nem comprovam ganhos operacionais.
 
-[**Abrir dashboard público**](https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard) | [Código e notebook](https://github.com/Danielobys/analise-qualidade-textil)
+[**Abrir painel v2**](https://danielobys.github.io/analise-qualidade-textil/v2/) | [**Código, metodologia e reprodução da v2**](v2/)
 
-[Abrir a versão 2 do painel](https://danielobys.github.io/analise-qualidade-textil/v2/) | [Metodologia e código da v2](v2/)
+A v2 compara taxas observadas e padronizadas pela composição dos tipos de malha. Ela inclui um cenário independente de 500 rolos sintéticos para acompanhar revisão, liberação, corte e estoque. O pipeline usa Python e SQLite. A reconciliação recuperou uma medição a partir de uma cópia compatível, reduzindo de 99 para 98 os lotes com gramatura ou torção ausente.
 
-![Dashboard](assets/dashboard-preview.jpg)
+## Resultados da versão 1
 
-## Resultados da base incluída
+[Abrir painel da versão 1](https://danielobys.github.io/analise-qualidade-textil/?view=1&tab=dashboard) | [Notebook](notebooks/analise_exploratoria.ipynb) | [Consultas em PostgreSQL](sql/consultas_analiticas.sql)
+
+![Dashboard da versão 1](assets/dashboard-preview.jpg)
 
 | Indicador | Resultado |
 |---|---:|
@@ -23,7 +25,7 @@ Projeto de portfólio que conecta experiência em inspeção de malhas com **Pyt
 
 O fornecedor B apresenta 46,8% de reprovação em 956 lotes; o E, 16,9% em 806 lotes. São comparações descritivas da simulação, sem ajuste pela composição das malhas. Uma taxa isolada não determina a confiabilidade de um fornecedor real.
 
-## Explore o dashboard
+## Explore o dashboard da versão 1
 
 Na raiz do projeto:
 
@@ -53,7 +55,7 @@ O HTML precisa ser servido junto do JSON, por HTTP.
 4. SQL com staging, dimensão de fornecedores e fato de inspeções; ranking mensal, evolução semanal com janelas e presença de defeito visual entre reprovações.
 5. Dashboard com snapshot do CSV tratado e taxas recalculadas para cada recorte, sem conexão ativa ao banco.
 
-## Reproduzir a análise
+## Reproduzir a análise da versão 1
 
 Python 3.13 foi usado na validação. No Windows:
 
